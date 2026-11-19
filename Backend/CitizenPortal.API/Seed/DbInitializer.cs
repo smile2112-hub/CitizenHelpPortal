@@ -10,6 +10,7 @@ namespace CitizenPortal.API.Seed
         public static async Task SeedRolesAndAdminAsync(
             IServiceProvider serviceProvider)
         {
+            var configuration = serviceProvider.GetRequiredService<IConfiguration>();
             var roleManager =
                 serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager =
@@ -26,31 +27,27 @@ namespace CitizenPortal.API.Seed
                     await roleManager.CreateAsync(new IdentityRole(role));
                 }
             }
-            string adminEmail = "admin@citizenportal.com";
+            var adminEmail = configuration["SeedAdmin:Email"];
+            var adminPassword = configuration["SeedAdmin:Password"];
 
-            var admin =
-                await userManager.FindByEmailAsync(adminEmail);
-
-            if (admin == null)
+            if (!string.IsNullOrWhiteSpace(adminEmail) && !string.IsNullOrWhiteSpace(adminPassword))
             {
-                admin = new ApplicationUser
+                var admin = await userManager.FindByEmailAsync(adminEmail);
+                if (admin == null)
                 {
-                    UserName = adminEmail,
-                    Email = adminEmail,
-                    FirstName = "System",
-                    Surname = "Administrator",
-                    City = "Chennai",
-                    Address = "Citizen Portal",
-                    Gender = "Male",
-                    Pincode = "600001",
-                    EmailConfirmed = true
-                };
-                var result = await userManager.CreateAsync(
-                    admin,
-                    "Admin@123");
-                if (result.Succeeded)
-                {
-                    await userManager.AddToRoleAsync(admin, "Admin");
+                    admin = new ApplicationUser
+                    {
+                        UserName = adminEmail,
+                        Email = adminEmail,
+                        FirstName = "System",
+                        Surname = "Administrator",
+                        EmailConfirmed = true
+                    };
+                    var result = await userManager.CreateAsync(admin, adminPassword);
+                    if (result.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(admin, "Admin");
+                    }
                 }
             }
             var context = serviceProvider.GetRequiredService<ApplicationDbContext>();

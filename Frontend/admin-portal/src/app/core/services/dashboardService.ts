@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class DashboardService 
 {
-  private apiUrl = 'http://localhost:5298/api/Dashboard/dashboard';
+  private apiUrl = '/api/Dashboard/dashboard';
   constructor(private http: HttpClient) { }
 
   getDashboard() 

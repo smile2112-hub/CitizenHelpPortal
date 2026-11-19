@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.x
+      - run: dotnet restore Backend/CitizenPortal.sln
+      - run: dotnet build Backend/CitizenPortal.sln --configuration Release --no-restore
+
+  frontend:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - name: citizen-portal
+            path: Frontend/Citizen-Portal
+          - name: admin-portal
+            path: Frontend/admin-portal
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: ${{ matrix.path }}/package-lock.json
+      - run: npm ci
+        working-directory: ${{ matrix.path }}
+      - run: npm test -- --watch=false --no-progress
+        working-directory: ${{ matrix.path }}
+      - run: npm run build -- --configuration production
+        working-directory: ${{ matrix.path }}

@@ -1,10 +1,5 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 18
-VisualStudioVersion = 18.6.11819.183 stable
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitizenPortal", "CitizenPortal\CitizenPortal.csproj", "{5C506BD7-6407-46E0-8DD7-5C58D65B2AE2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitizenPortal.API", "CitizenPortal.API\CitizenPortal.API.csproj", "{C90D7DC3-E27B-4F9D-BC51-19EB0C40F3FE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitizenPortal.BLL", "CitizenPortal.BLL\CitizenPortal.BLL.csproj", "{F3EDCC77-F9F4-4316-9066-54097779CD23}"
@@ -26,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5C506BD7-6407-46E0-8DD7-5C58D65B2AE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C506BD7-6407-46E0-8DD7-5C58D65B2AE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C506BD7-6407-46E0-8DD7-5C58D65B2AE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C506BD7-6407-46E0-8DD7-5C58D65B2AE2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C90D7DC3-E27B-4F9D-BC51-19EB0C40F3FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C90D7DC3-E27B-4F9D-BC51-19EB0C40F3FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C90D7DC3-E27B-4F9D-BC51-19EB0C40F3FE}.Release|Any CPU.ActiveCfg = Release|Any CPU

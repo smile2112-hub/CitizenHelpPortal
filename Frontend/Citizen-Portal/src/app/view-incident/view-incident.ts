@@ -17,7 +17,7 @@ export class ViewIncident implements OnInit
 
   incidents: ComplaintResp[] = [];
 
-  private apiUrl = 'http://localhost:5298/api/Complaint/my';
+  private apiUrl = '/api/Complaint/my';
 
   constructor(private http: HttpClient,private cdr:ChangeDetectorRef) {
    

@@ -19,7 +19,7 @@ export class ReportIssue{
 
   reportForm: FormGroup;
   base64Image: string = '';
-  apiUrl:string = 'http://localhost:5298/api/Complaint';
+  apiUrl:string = '/api/Complaint';
   selectedFile: File | null = null;
   preview: string | ArrayBuffer | null = null;
   incidentId:string = '';

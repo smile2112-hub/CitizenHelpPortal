@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using CitizenPortal.API.Seed;
 
 namespace CitizenPortal.API
 {
@@ -16,17 +17,17 @@ namespace CitizenPortal.API
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            // Add services to the container.
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+                ?? throw new InvalidOperationException("ConnectionStrings:DefaultConnection is required.");
+            var jwtKey = builder.Configuration["Jwt:Key"]
+                ?? throw new InvalidOperationException("Jwt:Key is required.");
+            var jwtIssuer = builder.Configuration["Jwt:Issuer"]
+                ?? throw new InvalidOperationException("Jwt:Issuer is required.");
+            var jwtAudience = builder.Configuration["Jwt:Audience"]
+                ?? throw new InvalidOperationException("Jwt:Audience is required.");
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            
-            //builder.service DI stores all services that app needs
-
-            //builder.Services.AddSwaggerGen();
-            //for Authorize button
             builder.Services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo
@@ -59,13 +60,10 @@ namespace CitizenPortal.API
                 });
             });
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    builder
-                        .Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(connectionString));
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-            //Jwt configuration
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -80,11 +78,11 @@ namespace CitizenPortal.API
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
 
-                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                    ValidAudience = builder.Configuration["Jwt:Audience"],
+                    ValidIssuer = jwtIssuer,
+                    ValidAudience = jwtAudience,
 
                     IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+                        Encoding.UTF8.GetBytes(jwtKey))
                 };
             });
 
@@ -92,8 +90,9 @@ namespace CitizenPortal.API
             {
                 options.AddPolicy("AngularPolicy", policy =>
                 {
-                    policy.WithOrigins("http://localhost:4200",
-                                "http://localhost:4300")
+                    var origins = builder.Configuration.GetSection("Cors:Origins").Get<string[]>()
+                        ?? ["http://localhost:4200", "http://localhost:4300"];
+                    policy.WithOrigins(origins)
                           .AllowAnyHeader()
                           .AllowAnyMethod();
                 });
@@ -115,28 +114,30 @@ namespace CitizenPortal.API
             builder.Services.AddHttpClient();
 
             var app = builder.Build();
-            app.UseHttpsRedirection();
+            if (!app.Environment.IsProduction())
+            {
+                app.UseHttpsRedirection();
+            }
             app.UseCors("AngularPolicy");
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseAuthorization();
             app.UseStaticFiles();
+            app.MapGet("/health", () => Results.Ok(new { status = "healthy" }));
             app.MapControllers();
-            //calling the seeder
+
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-
-                await CitizenPortal.API.Seed.DbInitializer
-                    .SeedRolesAndAdminAsync(services);
+                var context = services.GetRequiredService<ApplicationDbContext>();
+                await context.Database.MigrateAsync();
+                await DbInitializer.SeedRolesAndAdminAsync(services);
             }
+
             app.Run();
         }
     }

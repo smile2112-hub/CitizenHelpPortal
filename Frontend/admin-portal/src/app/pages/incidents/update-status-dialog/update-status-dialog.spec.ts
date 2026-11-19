@@ -1,17 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-import { UpdateStatusDialog } from './update-status-dialog';
+import { UpdateStatusDialogComponent } from './update-status-dialog';
 
-describe('UpdateStatusDialog', () => {
-  let component: UpdateStatusDialog;
-  let fixture: ComponentFixture<UpdateStatusDialog>;
+describe('UpdateStatusDialogComponent', () => {
+  let component: UpdateStatusDialogComponent;
+  let fixture: ComponentFixture<UpdateStatusDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UpdateStatusDialog],
+      imports: [UpdateStatusDialogComponent],
+      providers: [
+        { provide: MatDialogRef, useValue: { close: () => undefined } },
+        { provide: MAT_DIALOG_DATA, useValue: { status: '' } }
+      ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(UpdateStatusDialog);
+    fixture = TestBed.createComponent(UpdateStatusDialogComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

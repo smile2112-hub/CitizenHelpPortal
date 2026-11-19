@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { LocationPicker } from './location-picker';
 
@@ -9,6 +10,7 @@ describe('LocationPicker', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [LocationPicker],
+      providers: [{ provide: MatDialogRef, useValue: { close: () => undefined } }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LocationPicker);

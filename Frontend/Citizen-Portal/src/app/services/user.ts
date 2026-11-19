@@ -8,7 +8,7 @@ import { UserProfile } from '../models/user-profile';
 })
 export class UserService {
 
-  private profileUrl = 'http://localhost:5298/api/Auth/Profile';
+  private profileUrl = '/api/Auth/Profile';
 
   constructor(private http: HttpClient) { }
 
@@ -18,7 +18,7 @@ export class UserService {
 
   updateProfile(data: any) {
       return this.http.put(
-        'http://localhost:5298/api/Auth/Profile',
+        '/api/Auth/Profile',
         data);
   }
 }

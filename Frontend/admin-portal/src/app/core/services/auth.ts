@@ -9,7 +9,7 @@ import { LoginResponse } from '../models/LoginResponse';
 })
 export class Auth {
 
-  private apiUrl = 'http://localhost:5298/api/Auth';
+  private apiUrl = '/api/Auth';
 
   constructor(private http: HttpClient) { }
 

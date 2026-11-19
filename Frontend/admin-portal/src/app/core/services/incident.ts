@@ -10,7 +10,7 @@ import { Incident } from '../models/incident';
 })
 export class IncidentService 
 {
-  private apiUrl = 'http://localhost:5298/api/Complaint';
+  private apiUrl = '/api/Complaint';
   constructor(private http: HttpClient) { }
 
   getAllIncidents(): Observable<Incident[]> 

@@ -33,8 +33,8 @@ export class Signup
   showOtpScreen:boolean = false;
   isOtpSuccess:boolean = false;
 
-  private registerUrl = "http://localhost:5298/api/Auth/Register";
-  private verifyOtpUrl = "http://localhost:5298/api/Auth/VerifyOtp";
+  private registerUrl = "/api/Auth/Register";
+  private verifyOtpUrl = "/api/Auth/VerifyOtp";
 
   constructor(private http: HttpClient,private cdr: ChangeDetectorRef)
   {

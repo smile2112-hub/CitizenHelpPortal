@@ -1,17 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-import { ViewIncidentDialog } from './view-incident-dialog';
+import { ViewIncidentDialogComponent } from './view-incident-dialog';
 
-describe('ViewIncidentDialog', () => {
-  let component: ViewIncidentDialog;
-  let fixture: ComponentFixture<ViewIncidentDialog>;
+describe('ViewIncidentDialogComponent', () => {
+  let component: ViewIncidentDialogComponent;
+  let fixture: ComponentFixture<ViewIncidentDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ViewIncidentDialog],
+      imports: [ViewIncidentDialogComponent],
+      providers: [
+        { provide: MatDialogRef, useValue: { close: () => undefined } },
+        { provide: MAT_DIALOG_DATA, useValue: { complaintId: '' } }
+      ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ViewIncidentDialog);
+    fixture = TestBed.createComponent(ViewIncidentDialogComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

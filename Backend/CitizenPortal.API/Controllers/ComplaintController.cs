@@ -74,7 +74,13 @@ namespace CitizenPortal.API.Controllers
                 return BadRequest("Unable to create complaint.");
             }
 
-            var isMessageSent = emailService.SendIncidentNotification(response.ComplaintId.ToString(), response.CreatedDate.ToString(), email);
+            if (!string.IsNullOrWhiteSpace(email))
+            {
+                await emailService.SendIncidentNotification(
+                    response.ComplaintId.ToString(),
+                    response.CreatedDate.ToString(),
+                    email);
+            }
 
             return Ok(response);
         }

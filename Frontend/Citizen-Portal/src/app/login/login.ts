@@ -20,7 +20,7 @@ export class Login
   emailOrPhonePattern = 
   '^((\\+\\d{1,3}[- ]?)?\\d{10}$)|(^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,}$)';
 
-  private loginUrl = "http://localhost:5298/api/Auth/Login";
+  private loginUrl = "/api/Auth/Login";
 
   constructor(private http: HttpClient,private router:Router,private cdr: ChangeDetectorRef)
   {

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ProfileService {
 
-  private apiUrl = 'http://localhost:5298/api/Profile';
+  private apiUrl = '/api/Profile';
 
   constructor(private http: HttpClient) { }
 
@@ -24,7 +24,7 @@ export class ProfileService {
   // Get State, District & City from Pincode
   getLocationByPincode(pincode: string): Observable<any> {
     return this.http.get<any>(
-      `http://localhost:5298/api/Profile/pincode/${pincode}`
+      `/api/Profile/pincode/${pincode}`
     );
   }
 

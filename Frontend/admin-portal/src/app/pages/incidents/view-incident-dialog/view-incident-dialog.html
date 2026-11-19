@@ -1,10 +1,10 @@
 <h2 mat-dialog-title class="dialog-title">
 
-    <span>{{incident.complaintId}}</span>
+    <span>{{incident?.complaintId}}</span>
 
     <mat-chip class="status-chip">
 
-        {{incident.status}}
+        {{incident?.status}}
 
     </mat-chip>
 
@@ -22,15 +22,15 @@
         <div class="grid">
             <div>
                 <label>Name</label>
-                <p>{{incident.name}}</p>
+                <p>{{incident?.name}}</p>
             </div>
             <div>
                 <label>Email</label>
-                <p>{{incident.email}}</p>
+                <p>{{incident?.email}}</p>
             </div>
             <div>
                 <label>Phone</label>
-                <p>{{incident.mobile}}</p>
+                <p>{{incident?.mobile}}</p>
             </div>
         </div>
     </mat-card>
@@ -53,17 +53,17 @@
 
             <div>
                 <label>Department</label>
-                <p>{{incident.department}}</p>
+                <p>{{incident?.department}}</p>
             </div>
 
             <div>
                 <label>Category</label>
-                <p>{{incident.complaintCategory}}</p>
+                <p>{{incident?.complaintCategory}}</p>
             </div>
             
             <div>
                 <label>Reported On</label>
-                <p>{{incident.createdDate}}</p>
+                <p>{{incident?.createdDate}}</p>
             </div>
 
         </div>
@@ -72,7 +72,7 @@
 
         <p class="description">
 
-            {{incident.description}}
+            {{incident?.description}}
 
         </p>
 
@@ -98,7 +98,7 @@
 
                 <label>Latitude</label>
 
-                <p>{{incident.latitude}}</p>
+                <p>{{incident?.latitude}}</p>
 
             </div>
 
@@ -106,7 +106,7 @@
 
                 <label>Longitude</label>
 
-                <p>{{incident.longitude}}</p>
+                <p>{{incident?.longitude}}</p>
 
             </div>
 
@@ -140,7 +140,7 @@
         <mat-divider></mat-divider>
 
         <img
-            [src]="incident.imagePath"
+            [src]="incident?.imagePath"
             class="incident-image"
             alt="Incident Image">
 

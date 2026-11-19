@@ -52,7 +52,7 @@ export class ViewIncidentDialogComponent implements OnInit{
     {
       next: response => {
         this.incident = response;
-        this.incident.imagePath = `http://localhost:5298${response.imagePath}`;
+        this.incident.imagePath = response.imagePath;
         console.log(this.incident.imagePath);
         this.loading = false;
         this.cdr.detectChanges();

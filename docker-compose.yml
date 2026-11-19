@@ -1,0 +1,37 @@
+services:
+  api:
+    build:
+      context: ./Backend
+      dockerfile: CitizenPortal.API/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: ${DATABASE_CONNECTION_STRING:?Set DATABASE_CONNECTION_STRING}
+      Jwt__Key: ${JWT_KEY:?Set JWT_KEY}
+      Jwt__Issuer: ${JWT_ISSUER:-CitizenPortal.Api}
+      Jwt__Audience: ${JWT_AUDIENCE:-CitizenPortal.Web}
+      Cors__Origins__0: ${CITIZEN_PORTAL_ORIGIN:-http://localhost:4200}
+      Cors__Origins__1: ${ADMIN_PORTAL_ORIGIN:-http://localhost:4300}
+      SeedAdmin__Email: ${SEED_ADMIN_EMAIL:-}
+      SeedAdmin__Password: ${SEED_ADMIN_PASSWORD:-}
+      Email__From: ${EMAIL_FROM:-}
+      Email__Smtp__Host: ${EMAIL_SMTP_HOST:-}
+      Email__Smtp__Port: ${EMAIL_SMTP_PORT:-587}
+      Email__Smtp__Username: ${EMAIL_SMTP_USERNAME:-}
+      Email__Smtp__Password: ${EMAIL_SMTP_PASSWORD:-}
+    ports:
+      - "5298:8080"
+
+  citizen-portal:
+    build: ./Frontend/Citizen-Portal
+    depends_on:
+      - api
+    ports:
+      - "4200:80"
+
+  admin-portal:
+    build: ./Frontend/admin-portal
+    depends_on:
+      - api
+    ports:
+      - "4300:80"
