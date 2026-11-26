@@ -203,7 +203,7 @@ namespace CitizenPortal.BLL.Services
                 Address = applicationUser.Address,
                 City = applicationUser.City,
                 Pincode = applicationUser.Pincode,
-                PhoneNumber = applicationUser.PhoneNumber
+                PhoneNumber = applicationUser.PhoneNumber ?? string.Empty
             };
         }
 

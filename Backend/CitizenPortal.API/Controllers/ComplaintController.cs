@@ -69,11 +69,6 @@ namespace CitizenPortal.API.Controllers
                 complaintDto,
                 userId);
 
-            if (response == null)
-            {
-                return BadRequest("Unable to create complaint.");
-            }
-
             if (!string.IsNullOrWhiteSpace(email))
             {
                 await emailService.SendIncidentNotification(

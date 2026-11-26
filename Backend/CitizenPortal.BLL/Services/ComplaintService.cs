@@ -15,35 +15,30 @@ namespace CitizenPortal.BLL.Services
         }
         public async Task<ComplaintResponse> CreateComplaintAsync(ComplaintDto complaintDto,string userId)
         {
-            ComplaintResponse response = new ComplaintResponse();
-            try
+            Guid complaintId = Guid.NewGuid();
+            var complaint = new Complaint
             {
-                Guid complaintId = Guid.NewGuid();
-                var complaint = new Complaint
-                {
-                    ComplaintId = complaintId,
-                    UserId = userId,
-                    DepartmentId = complaintDto.DepartmentId,
-                    ComplaintCategoryId = complaintDto.ComplaintCategoryId,
-                    Description = complaintDto.Description,
-                    Latitude = complaintDto.Latitude,
-                    Longitude = complaintDto.Longitude,
-                    ImagePath = complaintDto.ImagePath,
-                    Status = "Pending",
-                    CreatedDate = DateTime.Now,
-                    UpdatedDate = DateTime.Now
-                };
-                _context.Complaints.Add(complaint);
-                await _context.SaveChangesAsync();
-                response.ComplaintId = complaintId;
-                response.Status = complaint.Status;
-                response.CreatedDate = complaint.CreatedDate;
-                return response;
-            }
-            catch (Exception ex)
+                ComplaintId = complaintId,
+                UserId = userId,
+                DepartmentId = complaintDto.DepartmentId,
+                ComplaintCategoryId = complaintDto.ComplaintCategoryId,
+                Description = complaintDto.Description,
+                Latitude = complaintDto.Latitude,
+                Longitude = complaintDto.Longitude,
+                ImagePath = complaintDto.ImagePath,
+                Status = "Pending",
+                CreatedDate = DateTime.Now,
+                UpdatedDate = DateTime.Now
+            };
+            _context.Complaints.Add(complaint);
+            await _context.SaveChangesAsync();
+
+            return new ComplaintResponse
             {
-                return null;
-            }
+                ComplaintId = complaintId,
+                Status = complaint.Status,
+                CreatedDate = complaint.CreatedDate
+            };
         }
         //get allcomplaints
         public async Task<List<ComplaintResponseDto>> GetAllComplaintsAsync()
